@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package demo;
+
+// Serviço didático que demonstra os QUATRO tipos de comunicação do gRPC.
+// Usado como material de estudo/relatório (Danilo Carvalho Antunes — gRPC/ProtoBuf).
+service DemoService {
+  // 1) Unary: 1 request -> 1 response
+  rpc Unary(Echo) returns (Echo);
+
+  // 2) Server streaming: 1 request -> N responses
+  rpc ServerStream(Echo) returns (stream Echo);
+
+  // 3) Client streaming: N requests -> 1 response
+  rpc ClientStream(stream Echo) returns (Resumo);
+
+  // 4) Bidirectional streaming: N requests <-> N responses
+  rpc BidiStream(stream Echo) returns (stream Echo);
+}
+
+message Echo {
+  string texto = 1;
+  int32  n     = 2;
+}
+
+message Resumo {
+  int32  total  = 1; // quantas mensagens o cliente enviou
+  string concat = 2; // concatenação dos textos recebidos
+}

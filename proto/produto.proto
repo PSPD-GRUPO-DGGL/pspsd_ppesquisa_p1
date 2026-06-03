@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package produto;
+
+// Serviço do Módulo A — dados básicos do produto.
+// Demonstra dois tipos de comunicação gRPC:
+//   - BuscarProduto: unary call (1 request -> 1 response)
+//   - ListarProdutos: server streaming (1 request -> N responses)
+service ProdutoService {
+  // Unary: busca um único produto pelo id.
+  rpc BuscarProduto(ProdutoRequest) returns (ProdutoResponse);
+
+  // Server streaming: emite um fluxo de produtos (opcionalmente filtrados por categoria).
+  rpc ListarProdutos(ListarProdutosRequest) returns (stream ProdutoResponse);
+}
+
+message ProdutoRequest {
+  int32 id = 1;
+}
+
+message ListarProdutosRequest {
+  string categoria = 1; // vazio = todas as categorias
+  int32  limite    = 2; // 0 = sem limite
+}
+
+message ProdutoResponse {
+  int32  id         = 1;
+  string nome       = 2;
+  string categoria  = 3;
+  double preco      = 4;
+  bool   disponivel = 5;
+}

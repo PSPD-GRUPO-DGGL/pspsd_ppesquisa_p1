@@ -79,7 +79,8 @@ GET /produto/1
 | **REST / JSON** | Versão alternativa para comparação |
 | **Docker** | Containerização dos módulos |
 | **Kubernetes / minikube** | Orquestração e implantação local |
-| **Python / Node.js / Go** | Linguagens dos módulos (a definir por módulo) |
+| **Python** | Microserviços A e B (gRPC + REST) |
+| **Node.js** | Módulo P (API Gateway) — linguagem distinta de A/B (regra do professor) |
 
 ---
 
@@ -272,7 +273,7 @@ ssh -p 10200 a<sua_matrícula>@kiriland.unb.br
 
 | Integrante | Responsabilidade Principal |
 |---|---|
-| **Aluno 1** | gRPC, ProtoBuf, Microserviço A + Dockerfile e manifests K8s do módulo A |
+| **Danilo Carvalho Antunes** | gRPC, ProtoBuf, Microserviço A + Dockerfile e manifests K8s do módulo A |
 | **Aluno 2** | HTTP/2, Microserviço B, versão REST do serviço B + Dockerfile e manifests K8s do módulo B |
 | **Aluno 3** | Módulo P (API Gateway), integração gRPC e REST + scripts de testes e comparação de desempenho |
 | **Aluno 4** | Docker, Kubernetes, minikube + consolidação do relatório, slides e vídeo final |

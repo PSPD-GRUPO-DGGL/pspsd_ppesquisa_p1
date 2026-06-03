@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: a-service
+  labels:
+    app: modulo-a
+spec:
+  # ClusterIP: o Módulo A só é acessado internamente pelo Módulo P (rede interna HTTP/2)
+  type: ClusterIP
+  selector:
+    app: modulo-a
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 50051
+      targetPort: 50051

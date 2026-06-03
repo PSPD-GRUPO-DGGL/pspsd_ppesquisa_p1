@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package avaliacao;
+
+// Serviço do Módulo B — dados complementares (avaliação/entrega) do produto.
+// Contrato base definido por Danilo Carvalho Antunes para destravar a integração; o Aluno 2
+// é o responsável pela implementação do servidor B.
+service AvaliacaoService {
+  // Unary: busca a avaliação de um produto.
+  rpc BuscarAvaliacao(AvaliacaoRequest) returns (AvaliacaoResponse);
+
+  // Server streaming: emite as avaliações de uma lista de produtos.
+  rpc ListarAvaliacoes(ListarAvaliacoesRequest) returns (stream AvaliacaoResponse);
+}
+
+message AvaliacaoRequest {
+  int32 id_produto = 1;
+}
+
+message ListarAvaliacoesRequest {
+  repeated int32 ids_produto = 1;
+}
+
+message AvaliacaoResponse {
+  int32  id_produto    = 1;
+  double nota          = 2;
+  string comentario    = 3;
+  int32  prazo_entrega = 4; // em dias
+}

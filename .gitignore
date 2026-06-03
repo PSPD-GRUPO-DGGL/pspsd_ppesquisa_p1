@@ -1,0 +1,29 @@
+# ---- Python ----
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+# Stubs gerados pelo protoc (gerados via 'make gen' / scripts/gen_protos.sh)
+*_pb2.py
+*_pb2_grpc.py
+
+# ---- Node.js ----
+node_modules/
+npm-debug.log*
+.env
+
+# ---- Go ----
+/bin/
+*.test
+
+# ---- Docker / K8s ----
+*.tar
+
+# ---- Sistema / Editor ----
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/

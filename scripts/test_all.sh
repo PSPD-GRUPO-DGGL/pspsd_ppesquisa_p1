@@ -25,7 +25,19 @@ echo "########################################"
 
 echo
 echo "########################################"
-echo "# 3) DEMO - 4 tipos de comunicacao gRPC"
+echo "# 3) MODULO B - gRPC (unary + streaming)"
+echo "########################################"
+./scripts/test_b.sh
+
+echo
+echo "########################################"
+echo "# 4) MODULO B - REST/JSON"
+echo "########################################"
+./scripts/test_rest_b.sh
+
+echo
+echo "########################################"
+echo "# 5) DEMO - 4 tipos de comunicacao gRPC"
 echo "########################################"
 ./scripts/test_demo.sh
 

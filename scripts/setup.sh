@@ -13,9 +13,10 @@ if ! python3 -m venv .venv 2>/dev/null; then
   exit 1
 fi
 
-echo ">> [2/3] Instalando dependencias (modulo-a/requirements.txt)"
+echo ">> [2/3] Instalando dependencias (modulo-a e modulo-b)"
 ./.venv/bin/python -m pip install --quiet --upgrade pip
 ./.venv/bin/python -m pip install --quiet -r modulo-a/requirements.txt
+./.venv/bin/python -m pip install --quiet -r modulo-b/requirements.txt
 
 echo ">> [3/3] Gerando stubs gRPC"
 ./scripts/gen_protos.sh

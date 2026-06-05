@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: modulo-b
+  labels:
+    app: modulo-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: modulo-b
+  template:
+    metadata:
+      labels:
+        app: modulo-b
+    spec:
+      containers:
+        - name: modulo-b
+          image: modulo-b:latest
+          # No minikube, use imagem local: 'imagePullPolicy: IfNotPresent'
+          # após 'eval $(minikube docker-env) && docker build ...'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 50052
+          env:
+            - name: GRPC_B_PORT
+              value: "50052"

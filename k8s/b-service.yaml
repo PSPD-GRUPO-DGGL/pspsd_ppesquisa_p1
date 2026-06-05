@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: b-service
+  labels:
+    app: modulo-b
+spec:
+  # ClusterIP: o Módulo B só é acessado internamente pelo Módulo P (rede interna HTTP/2)
+  type: ClusterIP
+  selector:
+    app: modulo-b
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 50052
+      targetPort: 50052

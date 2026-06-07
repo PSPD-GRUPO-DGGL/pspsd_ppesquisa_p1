@@ -276,6 +276,6 @@ ssh -p 10200 a<sua_matrícula>@kiriland.unb.br
 | **Danilo Carvalho Antunes** | gRPC, ProtoBuf, Microserviço A + Dockerfile e manifests K8s do módulo A |
 | **Aluno 2** | HTTP/2, Microserviço B, versão REST do serviço B + Dockerfile e manifests K8s do módulo B |
 | **Aluno 3** | Módulo P (API Gateway), integração gRPC e REST + scripts de testes e comparação de desempenho |
-| **Aluno 4** | Docker, Kubernetes, minikube + consolidação do relatório, slides e vídeo final |
+| **Luiz Gustavo Lopes Campos** | Docker, Kubernetes, minikube + consolidação do relatório, slides e vídeo final |
 
 > Detalhamento completo por etapa disponível em [`docs/PLANO.md`](docs/PLANO.md).

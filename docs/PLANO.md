@@ -550,7 +550,7 @@ Gravar um vídeo com a participação de todos os membros (~20 minutos, ~5 min p
 - Organizar tabelas de resultados e análise conclusiva.
 - Apresentar o módulo P, integração e testes comparativos no vídeo.
 
-### Aluno 4 — Docker, Kubernetes, minikube e Organização Final
+### Luiz Gustavo — Docker, Kubernetes, minikube e Organização Final
 - Configurar e testar execução de todos os containers Docker.
 - Configurar minikube e testar implantação completa no Kubernetes.
 - Documentar comandos, erros e soluções.

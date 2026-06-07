@@ -1,0 +1,32 @@
+services:
+  modulo-a:
+    build: ./modulo-a
+    ports:
+      - "50051:50051"
+
+  modulo-b:
+    build: ./modulo-b
+    ports:
+      - "50052:50052"
+
+  rest-a:
+    build: ./modulo-a
+    command: uvicorn rest_server:app --host 0.0.0.0 --port 8001
+    ports:
+      - "8001:8001"
+
+  rest-b:
+    build: ./modulo-b
+    command: uvicorn rest_server:app --host 0.0.0.0 --port 8002
+    ports:
+      - "8002:8002"
+
+  modulo-p:
+    build: ./modulo-p
+    ports:
+      - "8000:8000"
+    depends_on:
+      - modulo-a
+      - modulo-b
+      - rest-a
+      - rest-b

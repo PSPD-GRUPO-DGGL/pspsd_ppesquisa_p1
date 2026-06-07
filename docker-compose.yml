@@ -1,32 +1,73 @@
+version: "3.8"
+
 services:
   modulo-a:
-    build: ./modulo-a
+    build:
+      context: .
+      dockerfile: modulo-a/Dockerfile
+    container_name: pspd-modulo-a
     ports:
       - "50051:50051"
+    environment:
+      - GRPC_A_PORT=50051
+    networks:
+      - pspd-network
 
   modulo-b:
-    build: ./modulo-b
+    build:
+      context: .
+      dockerfile: modulo-b/Dockerfile
+    container_name: pspd-modulo-b
     ports:
       - "50052:50052"
+    environment:
+      - GRPC_B_PORT=50052
+    networks:
+      - pspd-network
 
   rest-a:
-    build: ./modulo-a
+    build:
+      context: .
+      dockerfile: modulo-a/Dockerfile
+    container_name: pspd-rest-a
     command: uvicorn rest_server:app --host 0.0.0.0 --port 8001
     ports:
       - "8001:8001"
+    networks:
+      - pspd-network
 
   rest-b:
-    build: ./modulo-b
+    build:
+      context: .
+      dockerfile: modulo-b/Dockerfile
+    container_name: pspd-rest-b
     command: uvicorn rest_server:app --host 0.0.0.0 --port 8002
     ports:
       - "8002:8002"
+    networks:
+      - pspd-network
 
   modulo-p:
-    build: ./modulo-p
+    build:
+      context: .
+      dockerfile: modulo-p/Dockerfile
+    container_name: pspd-modulo-p
     ports:
       - "8000:8000"
+    environment:
+      - PORT=8000
+      - URL_MODULO_A=modulo-a:50051
+      - URL_MODULO_B=modulo-b:50052
+      - URL_REST_A=http://rest-a:8001
+      - URL_REST_B=http://rest-b:8002
     depends_on:
       - modulo-a
       - modulo-b
       - rest-a
       - rest-b
+    networks:
+      - pspd-network
+
+networks:
+  pspd-network:
+    driver: bridge

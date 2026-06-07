@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Contrato proto + código do módulo
 COPY proto/produto.proto ./proto/produto.proto
-COPY modulo-a/server.py modulo-a/dados.py modulo-a/client_test.py ./
+COPY modulo-a/*.py ./
 
 # Gera os stubs gRPC dentro da imagem
 RUN python -m grpc_tools.protoc -I proto \

@@ -146,7 +146,176 @@ pspsd_ppesquisa_p1/
 
 ---
 
-## Como Executar
+# Guia de Configuração do Ambiente e Execução — PSPD
+
+Este guia orienta o passo a passo de instalação das ferramentas necessárias e 
+as instruções para executar a nossa aplicação de microsserviços distribuídos 
+(Módulos P, A e B) localmente no Docker ou orquestrado no Kubernetes (Minikube).
+
+---
+
+## 1. Pré-requisitos & Ativação de Virtualização (Windows)
+
+Antes de iniciar as instalações, certifique-se de habilitar a virtualização 
+física do seu processador e os recursos do Windows.
+
+### Passo 1.1: Ativar na Placa-Mãe (BIOS)
+1. Reinicie seu computador.
+2. Acesse a BIOS pressionando repetidamente a tecla correspondente à sua marca 
+   (geralmente `F2`, `F12`, `F10` ou `Delete`).
+3. Procure pelas seguintes opções e marque como **Enabled** (Habilitado):
+   - Se for processador **Intel**: Intel Virtualization Technology (Intel VT-x).
+   - Se for processador **AMD**: SVM Mode (Secure Virtual Machine).
+4. Salve as alterações e inicie o Windows.
+
+### Passo 1.2: Ativar Recursos de Máquina Virtual no Windows
+Abra o **PowerShell como Administrador** e execute os dois comandos abaixo:
+
+```powershell
+# Ativa o Subsistema do Windows para Linux (WSL)
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+
+# Ativa a Plataforma de Máquina Virtual
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+```
+
+**Importante:** Reinicie o computador após a execução desses comandos. 
+Ao ligar de volta, execute este comando no terminal para atualizar o kernel 
+do WSL 2:
+
+```powershell
+wsl --update
+```
+
+---
+
+## 2. Instalação das Ferramentas Obrigatórias
+
+Abra o seu terminal e utilize o gerenciador de pacotes padrão do Windows 
+(`winget`) para instalar as dependências de infraestrutura de forma automática:
+
+```powershell
+# 1. Instalar o Docker Desktop
+winget install Docker.DockerDesktop
+
+# 2. Instalar o Minikube
+winget install Kubernetes.minikube
+
+# 3. Instalar o Kubectl (CLI do Kubernetes)
+winget install Kubernetes.kubectl
+```
+
+> **Atenção:** Após concluir as instalações por completo, feche todos os 
+> terminais abertos ou reinicie o VS Code para que o sistema operacional 
+> reconheça as novas variáveis de ambiente.
+
+---
+
+## 3. Rodando o Projeto com Docker Compose (Local)
+
+O Docker Compose sobe todo o ecossistema local na sua máquina, incluindo 
+as versões gRPC e REST do Módulo A e B para comparação.
+
+1. **Abra o Docker Desktop** na sua máquina e certifique-se de que a baleia 
+   no canto inferior esquerdo está verde.
+2. Na raiz do projeto, execute o comando:
+
+```bash
+docker compose up --build
+```
+
+### Endpoints Disponíveis Localmente:
+- **Módulo P (API Gateway):** `http://localhost:8000/produto/1`
+- **Módulo A (REST):** `http://localhost:8001/produto/1`
+- **Módulo B (REST):** `http://localhost:8002/avaliacao/1`
+
+Para derrubar os containers após testar:
+```bash
+docker compose down
+```
+
+---
+
+## 4. Rodando o Projeto no Kubernetes (Minikube)
+
+Para simular o ambiente de produção orquestrado sob o Kubernetes local:
+
+### Passo 4.1: Inicializar o nó Kubernetes
+```powershell
+minikube start --driver=docker
+```
+
+### Passo 4.2: Apontar contexto de build de imagem para dentro do Kubernetes
+No PowerShell, execute o comando abaixo para que o seu comando `docker build` 
+salve as imagens diretamente na memória do cluster:
+
+```powershell
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+```
+
+### Passo 4.3: Compilar as imagens
+Rode o comando de compilação na raiz do projeto:
+
+```powershell
+docker build -t modulo-a:latest -f modulo-a/Dockerfile .
+docker build -t modulo-b:latest -f modulo-b/Dockerfile .
+docker build -t modulo-p:latest -f modulo-p/Dockerfile .
+```
+
+### Passo 4.4: Aplicar as configurações no Kubernetes (Deploy)
+```powershell
+kubectl apply -f k8s/
+```
+
+### Passo 4.5: Monitorar o status de inicialização
+Execute o comando abaixo e aguarde de 1 a 2 minutos até que o status de todos 
+os 3 pods (`modulo-a-...`, `modulo-b-...` e `modulo-p-...`) mude de 
+`ContainerCreating` para **`Running`**:
+
+```powershell
+kubectl get pods -w
+```
+*(Pressione `Ctrl + C` para sair do monitoramento contínuo).*
+
+---
+
+## 5. Como Testar e Fazer Requisições no Kubernetes
+
+Como rodamos o Minikube via driver do Docker no Windows, os clusters rodam 
+em uma rede isolada. Para testar, precisamos abrir um canal de ponte de rede:
+
+1. No terminal do PowerShell, rode:
+```powershell
+minikube service p-service --url
+```
+2. **Deixe este terminal aberto em segundo plano.** Ele criará uma ponte e 
+   cuspirá uma URL neste formato: `http://127.0.0.1:xxxxx` (ex: 63200).
+3. Abra um navegador ou use um terminal secundário do VS Code e acesse 
+   a URL gerada adicionando `/produto/1` no final:
+
+```powershell
+# Exemplo de consulta (substitua a porta de acordo com seu terminal)
+curl.exe http://127.0.0.1:63200/produto/1
+```
+
+O JSON completo fundindo os dados de A e B será mostrado na tela!
+
+---
+
+## 6. Comandos Úteis do Kubernetes para Debug (Depuração)
+
+- Ver logs de processamento de um pod em tempo real:
+  ```powershell
+  kubectl logs -f modulo-p-deployment-xxxxxx
+  ```
+- Excluir e limpar todos os recursos instalados do Kubernetes:
+  ```powershell
+  kubectl delete -f k8s/
+  ```
+- Desligar de forma segura o minikube:
+  ```powershell
+  minikube stop
+  ```
 
 ### Pré-requisitos
 

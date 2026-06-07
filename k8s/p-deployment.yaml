@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: modulo-p
+  labels:
+    app: modulo-p
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: modulo-p
+  template:
+    metadata:
+      labels:
+        app: modulo-p
+    spec:
+      containers:
+        - name: modulo-p
+          image: modulo-p:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+            - name: URL_MODULO_A
+              value: "a-service:50051"
+            - name: URL_MODULO_B
+              value: "b-service:50052"

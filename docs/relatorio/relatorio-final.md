@@ -595,8 +595,15 @@ O Kubernetes trouxe a experiência de implantar e gerenciar a aplicação em con
 > Nota de autoavaliação: [X/10]
 
 **Luiz Gustavo Lopes Campos:**
-> [Preencher depois]
-> Nota de autoavaliação: [X/10]
+Desafios de Desenvolvimento Encontrados e Soluções
+  - Suporte à Virtualização: Identifiquei incompatibilidade inicial no Docker Desktop no Windows devido ao 
+    suporte de virtualização estar desativado na placa-mãe (BIOS). 
+    A correção envolveu a ativação do modo SVM/VT-x e instalação do subsistema WSL 2.
+  - Disponibilidade de Imagens no Minikube: Como as imagens criadas do projeto eram locais, 
+    o Kubernetes acusava falha de download. A solução adotada foi chavear o shell do terminal do Windows 
+    com as variáveis do daemon interno do Minikube via link 'minikube docker-env', construindo os artefatos 
+    direto no registro local.
+> Nota de autoavaliação: [8/10]
 
 ---
 

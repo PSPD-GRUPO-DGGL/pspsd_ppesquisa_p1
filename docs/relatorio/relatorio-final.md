@@ -13,12 +13,12 @@
 
 **Integrantes:**
 
-| #   | Nome                      | Responsabilidade Principal                                              |
-| --- | ------------------------- | ----------------------------------------------------------------------- |
-| 1   | Danilo Carvalho Antunes   | gRPC, ProtoBuf, Módulo A (gRPC + REST), Dockerfile e manifests K8s do A |
-| 2   | Gabriel Soares dos Anjos  | HTTP/2, Módulo B (gRPC + REST), Dockerfile e manifests K8s do B         |
-| 3   | Guilherme Brito de Souza  | Módulo P (API Gateway em Node.js), Dockerfile, docker-compose           |
-| 4   | Luiz Gustavo Lopes Campos | Docker, Kubernetes/minikube, organização geral, relatório e slides      |
+| #   | Nome                      | Responsabilidade Principal                                                          |
+| --- | ------------------------- | ----------------------------------------------------------------------------------- |
+| 1   | Danilo Carvalho Antunes   | gRPC, ProtoBuf, Módulo A (gRPC + REST), Dockerfile e manifests K8s do A             |
+| 2   | Gabriel Soares dos Anjos  | HTTP/2, Módulo B (gRPC + REST), Dockerfile e manifests K8s do B, relatório e slides |
+| 3   | Guilherme Brito de Souza  | Módulo P (API Gateway em Node.js), Dockerfile, docker-compose                       |
+| 4   | Luiz Gustavo Lopes Campos | Docker, Kubernetes/minikube, organização geral                                      |
 
 ---
 
@@ -612,9 +612,9 @@ Em relação ao trabalho em equipe, busquei manter rastreabilidade entre requisi
 
 > Nota de autoavaliação: 10/10
 
-**[Aluno 2]:**
-> [Preencher depois]
-> Nota de autoavaliação: [X/10]
+**Gabriel Soares dos Anjos:**
+> No geral, acredito que meus principais aprendizados foram em nível técnico e prático. Naturalmente, enquanto estudave, meus conhecimentos acerca dos temas abordados, como Protocol Buffers, gRPC, HTTP2, entre outros, sempre ficavam no campo teórico. Então, foi bastante interessante abordar esses temas na pŕatica e descobrir melhor o funcionamento por "baixo dos panos". Por exemplo, achei interessante notar como diferentes linguagens carregam arquivos .proto, também compreendi melhor as diferenças entre o HTTP2 e HTTP1.1 e, consequentemente compreender melhor a implementação dos diferentes tipos de comunicação gRPC.
+> Nota de autoavaliação: 10/10
 
 **Guilherme Brito de Souza:**
 

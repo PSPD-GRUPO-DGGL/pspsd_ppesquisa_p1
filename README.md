@@ -343,23 +343,35 @@ protoc --python_out=. --grpc_python_out=. proto/avaliacao.proto
 
 ### 3. Executar localmente (sem containers)
 
+Prepare o ambiente Python uma vez: `./scripts/setup.sh` (cria `.venv`, instala deps e gera os stubs).
+
 ```bash
-# Terminal 1 — Módulo A
-cd modulo-a && python server.py
+# Terminal 1 — Módulo A (gRPC, Python)
+cd modulo-a && ../.venv/bin/python server.py
 
-# Terminal 2 — Módulo B
-cd modulo-b && python server.py
+# Terminal 2 — Módulo B (gRPC, Python)
+cd modulo-b && ../.venv/bin/python server.py
 
-# Terminal 3 — Módulo P
-cd modulo-p && python server.py
+# Terminal 3 — REST do Módulo A (opcional, para /rest/produto)
+cd rest-version/modulo-a && ../../.venv/bin/python app.py
+
+# Terminal 4 — REST do Módulo B (opcional, para /rest/produto)
+cd rest-version/modulo-b && ../../.venv/bin/python app.py
+
+# Terminal 5 — Módulo P (API Gateway, Node.js)
+cd modulo-p && npm install && npm start
 ```
+
+> O Módulo P sobe em `http://localhost:3000`. Endpoints: `/produto/:id` (gRPC) e `/rest/produto/:id` (REST).
 
 ### 4. Build das imagens Docker
 
+> O build deve usar a **raiz** do repositório como contexto (os Dockerfiles copiam `proto/`).
+
 ```bash
-docker build -t modulo-a:latest ./modulo-a
-docker build -t modulo-b:latest ./modulo-b
-docker build -t modulo-p:latest ./modulo-p
+docker build -t modulo-a:latest -f modulo-a/Dockerfile .
+docker build -t modulo-b:latest -f modulo-b/Dockerfile .
+docker build -t modulo-p:latest -f modulo-p/Dockerfile .
 ```
 
 ### 5. Implantar no Kubernetes com minikube

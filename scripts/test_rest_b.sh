@@ -12,9 +12,14 @@ cd "$ROOT/rest-version/modulo-b"
 REST_B_PORT="${REST_B_PORT:-8002}" "$PY" app.py &
 SRV=$!
 trap 'kill "$SRV" 2>/dev/null || true' EXIT
-sleep 1
 
 BASE="http://localhost:${REST_B_PORT:-8002}"
+# Aguarda o servidor ficar pronto (cold-start do Python em /mnt/c pode ser lento).
+for _ in $(seq 1 40); do
+  curl -s -o /dev/null -m 1 "$BASE/health" && break
+  sleep 0.5
+done
+
 echo "== GET /health =="
 curl -s "$BASE/health"; echo
 echo "== GET /avaliacao/1 =="

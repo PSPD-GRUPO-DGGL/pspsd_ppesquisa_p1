@@ -17,6 +17,8 @@ Sistema Distribuído de Consulta e Análise de Produtos
 - Comparar **gRPC/ProtoBuf** x **REST/JSON**
 - Implantar com **Docker + Kubernetes (minikube)**
 
+Status atual: **implementado e validado**.
+
 ---
 
 # O que é gRPC
@@ -66,16 +68,18 @@ vs HTTP/1.1: texto, 1 requisição por vez
 
 Módulo A implementa **Unary** e **Server streaming**.
 
+Os 4 tipos foram testados em `exemplos-grpc/` via `scripts/test_demo.sh`.
+
 ---
 
-# Demonstração — Módulo A
+# Demonstração — Arquitetura completa
 
 ```text
-Unary  BuscarProduto(1)  -> Notebook Ultra, R$ 3500.00
-Stream ListarProdutos(Eletrônicos) -> #1 #2 #4 #6
+GET /produto/1      -> P consulta A e B via gRPC (ok)
+GET /rest/produto/1 -> P consulta A e B via REST (ok)
 ```
 
-- `scripts/test_a.sh` sobe o servidor e roda o cliente
+- Validação prática concluída em Docker Compose e minikube
 
 ---
 
@@ -83,7 +87,10 @@ Stream ListarProdutos(Eletrônicos) -> #1 #2 #4 #6
 
 - gRPC: binário, HTTP/2, contrato forte, streaming nativo
 - REST/JSON: texto, HTTP/1.1, flexível, nativo no browser
-- Comparação de tempo de resposta: Etapa 6
+- Resultado (100 req): gRPC **4,36 ms** vs REST **4,92 ms**
+- RPS (100 req): gRPC **229,11** vs REST **203,08**
+
+Conclusão: em carga sustentada, gRPC teve melhor eficiência.
 
 ---
 
@@ -91,4 +98,5 @@ Stream ListarProdutos(Eletrônicos) -> #1 #2 #4 #6
 
 - gRPC + ProtoBuf + HTTP/2 = comunicação eficiente entre microserviços
 - Cada tipo de RPC tem seu caso de uso
-- Próximos passos: integração P↔A↔B e testes de desempenho
+- Projeto funcional com P↔A↔B em gRPC e REST
+- Kubernetes/minikube validado no ambiente local com 5 pods (A, B, P, REST-A, REST-B)

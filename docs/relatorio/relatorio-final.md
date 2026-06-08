@@ -417,23 +417,30 @@ Conceitos utilizados:
 ### 5.2 Distribuição dos Módulos
 
 ```
-┌─────────────────── Cluster minikube ──────────────────┐
-│                                                        │
-│   ┌────────────────────────────────────────────┐       │
-│   │  Pod P (Node.js)  ←── NodePort :8000       │       │
-│   │  API Gateway                               │◄──── externo
-│   └───────────┬─────────────────┬──────────────┘       │
-│               │ ClusterIP       │ ClusterIP             │
-│        a-service:50051   b-service:50052                │
-│               │                 │                       │
-│   ┌───────────▼──────┐  ┌──────▼──────────────┐        │
-│   │  Pod A (Python)  │  │  Pod B (Python)      │        │
-│   │  ProdutoService  │  │  AvaliacaoService    │        │
-│   └──────────────────┘  └──────────────────────┘        │
-└────────────────────────────────────────────────────────┘
+┌─────────────────── Cluster minikube ──────────────────────────┐
+│                                                                │
+│   ┌────────────────────────────────────────────────────┐       │
+│   │  Pod P (Node.js)  ←── NodePort :8000               │       │
+│   │  API Gateway (gRPC + REST)                        │◄──── externo
+│   └───────────┬─────────────────┬──────────────────────┘       │
+│               │ ClusterIP       │ ClusterIP                     │
+│        a-service:50051   b-service:50052                        │
+│               │                 │                               │
+│   ┌───────────▼──────┐  ┌──────▼──────────────┐                │
+│   │  Pod A (Python)  │  │  Pod B (Python)      │                │
+│   │  ProdutoService  │  │  AvaliacaoService    │                │
+│   └──────────────────┘  └──────────────────────┘                │
+│               │                 │                                │
+│        rest-a-service:8001   rest-b-service:8002                 │
+│               │                 │                                │
+│   ┌───────────▼──────┐  ┌──────▼──────────────┐                 │
+│   │ Pod REST-A       │  │ Pod REST-B          │                 │
+│   │ rest_server:app  │  │ rest_server:app     │                 │
+│   └──────────────────┘  └──────────────────────┘                 │
+└────────────────────────────────────────────────────────────────┘
 ```
 
-Os Serviços A e B usam `ClusterIP` (apenas acessíveis internamente pelo Módulo P). O Serviço P usa `NodePort` para expor a API REST ao cliente externo.
+Os Serviços A e B usam `ClusterIP` (apenas acessíveis internamente pelo Módulo P). O Serviço P usa `NodePort` para expor a API ao cliente externo. Para o caminho REST no cluster, também foram adicionados os serviços `rest-a-service` e `rest-b-service` (ClusterIP).
 
 ### 5.3 Arquivos de Configuração
 
@@ -522,6 +529,8 @@ spec:
 
 O `p-deployment.yaml` usa `URL_MODULO_A` e `URL_MODULO_B` com os nomes dos Services K8s (`a-service:50051`, `b-service:50052`), garantindo que o Módulo P encontre A e B dentro do cluster sem alterar o código.
 
+Além disso, o `p-deployment.yaml` define `URL_REST_A` e `URL_REST_B` apontando para `http://rest-a-service:8001` e `http://rest-b-service:8002`, habilitando o endpoint `GET /rest/produto/:id` também dentro do Kubernetes.
+
 ### 5.4 Passos para Implantação no minikube
 
 ```bash
@@ -536,6 +545,8 @@ docker build -t modulo-a:latest -f modulo-a/Dockerfile .
 docker build -t modulo-b:latest -f modulo-b/Dockerfile .
 docker build -t modulo-p:latest -f modulo-p/Dockerfile .
 
+# rest-a e rest-b reutilizam as imagens de A e B com comando uvicorn
+
 # 4. Aplicar os manifests
 kubectl apply -f k8s/
 
@@ -543,10 +554,14 @@ kubectl apply -f k8s/
 kubectl get pods
 kubectl get services
 
-# 6. Acessar o serviço P (abre no browser ou retorna URL)
-minikube service p-service
+# 6. Acessar o serviço P (retorna URL HTTP)
+minikube service p-service --url
 
-# 7. Ver logs de um pod
+# 7. Testar os dois caminhos
+curl "http://127.0.0.1:<porta>/produto/1"
+curl "http://127.0.0.1:<porta>/rest/produto/1"
+
+# 8. Ver logs de um pod
 kubectl logs <nome-do-pod>
 ```
 
@@ -566,7 +581,13 @@ kubectl logs <nome-do-pod>
 
 - **Imagens locais no minikube:** por padrão o Kubernetes tenta baixar imagens de registries externos. A solução foi executar `eval $(minikube docker-env)` para apontar o Docker local ao daemon do minikube antes do build, combinado com `imagePullPolicy: IfNotPresent`.
 - **Comunicação intra-cluster:** os endereços `localhost:50051/50052` usados no desenvolvimento local não funcionam em K8s. A solução foi utilizar os nomes dos Services (`a-service:50051`, `b-service:50052`) configurados via variáveis de ambiente no Deployment do Módulo P.
-- **Nomenclatura de variáveis de ambiente (REST via Docker Compose):** o `docker-compose.yml` passa `URL_REST_A`/`URL_REST_B` para o Módulo P, mas o `restClient.js` lê `MODULO_A_URL`/`MODULO_B_URL`. No ambiente Docker, a rota `GET /rest/produto/:id` usa os defaults `localhost:8001/8002` internamente ao container. O caminho gRPC (`GET /produto/:id`) não é afetado. Para execução local (sem container), ambas as rotas funcionam normalmente.
+- **Nomenclatura de variáveis de ambiente (REST):** inicialmente havia divergência entre nomes usados no `docker-compose` e nomes lidos no `restClient.js`. A solução foi tornar o cliente REST compatível com ambos (`URL_REST_A`/`URL_REST_B` e `MODULO_A_URL`/`MODULO_B_URL`) e, no Kubernetes, definir explicitamente `URL_REST_A`/`URL_REST_B` no Deployment do Módulo P apontando para `rest-a-service` e `rest-b-service`.
+
+### 5.7 Ambiente de Validação
+
+- **Máquina local do grupo:** validação concluída para Docker Compose e Kubernetes/minikube (gRPC e REST).
+- **Servidor da disciplina (`kiriland.unb.br`):** validação concluída para Docker Compose.
+- No momento dos testes no servidor da disciplina, `kubectl` e `minikube` não estavam disponíveis por padrão. Por isso, a validação Kubernetes foi realizada no ambiente local com os pré-requisitos instalados.
 
 ---
 
@@ -583,8 +604,13 @@ O Kubernetes trouxe a experiência de implantar e gerenciar a aplicação em con
 ### 6.2 Aprendizados Individuais
 
 **Danilo Carvalho Antunes:**
-> [Preencher depois]
-> Nota de autoavaliação: [X/10]
+Atuei na implementação e consolidação das partes de gRPC/ProtoBuf e do Módulo A (gRPC e REST), incluindo a definição de contratos e a validação de interoperabilidade com o Módulo P em Node.js. Também participei da estabilização do fluxo de testes e da correção de integração REST entre ambientes (local, Docker Compose e Kubernetes), garantindo que os endpoints de negócio funcionassem de ponta a ponta.
+
+Do ponto de vista técnico, os principais aprendizados foram: (i) projetar contratos `.proto` pensando em evolução e compatibilidade, (ii) lidar com diferenças práticas entre ambientes de execução (host local, WSL, containers e minikube), e (iii) depurar problemas de integração entre serviços distribuídos mantendo mudanças mínimas e reprodutíveis.
+
+Em relação ao trabalho em equipe, busquei manter rastreabilidade entre requisitos do enunciado, implementação e evidências de teste, para facilitar revisão pelos colegas e replicação pelo professor.
+
+> Nota de autoavaliação: 10/10
 
 **[Aluno 2]:**
 > [Preencher depois]

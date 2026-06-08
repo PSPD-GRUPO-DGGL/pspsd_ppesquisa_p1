@@ -234,6 +234,13 @@ Para derrubar os containers após testar:
 docker compose down
 ```
 
+### Validação rápida (obrigatória)
+
+```bash
+curl -s http://localhost:8000/produto/1 | python3 -m json.tool
+curl -s http://localhost:8000/rest/produto/1 | python3 -m json.tool
+```
+
 ---
 
 ## 4. Rodando o Projeto no Kubernetes (Minikube)
@@ -262,6 +269,8 @@ docker build -t modulo-b:latest -f modulo-b/Dockerfile .
 docker build -t modulo-p:latest -f modulo-p/Dockerfile .
 ```
 
+> Os deployments `rest-a` e `rest-b` no Kubernetes reutilizam as imagens `modulo-a:latest` e `modulo-b:latest` com comando de inicialização REST (`uvicorn rest_server:app`).
+
 ### Passo 4.4: Aplicar as configurações no Kubernetes (Deploy)
 ```powershell
 kubectl apply -f k8s/
@@ -269,7 +278,7 @@ kubectl apply -f k8s/
 
 ### Passo 4.5: Monitorar o status de inicialização
 Execute o comando abaixo e aguarde de 1 a 2 minutos até que o status de todos 
-os 3 pods (`modulo-a-...`, `modulo-b-...` e `modulo-p-...`) mude de 
+os 5 pods (`modulo-a-...`, `modulo-b-...`, `modulo-p-...`, `rest-a-...` e `rest-b-...`) mude de 
 `ContainerCreating` para **`Running`**:
 
 ```powershell
@@ -299,6 +308,12 @@ curl.exe http://127.0.0.1:63200/produto/1
 ```
 
 O JSON completo fundindo os dados de A e B será mostrado na tela!
+
+Teste também o caminho REST no cluster:
+
+```powershell
+curl.exe http://127.0.0.1:63200/rest/produto/1
+```
 
 ---
 
@@ -398,13 +413,20 @@ Os scripts de teste estão em `testes/`. A comparação mede o tempo médio de r
 
 | Cenário | gRPC/ProtoBuf | REST/JSON | Diferença |
 |---|---|---|---|
-| 1 requisição | — | — | — |
-| 10 requisições | — | — | — |
-| 100 requisições | — | — | — |
-| Payload pequeno | — | — | — |
-| Payload maior | — | — | — |
+| 1 requisição | 6,23 ms | 5,60 ms | -0,62 ms |
+| 10 requisições (média) | 4,91 ms | 4,64 ms | -0,27 ms |
+| 100 requisições (média) | **4,36 ms** | **4,92 ms** | **+0,56 ms (vantagem gRPC)** |
+| RPS (100 req) | **229,11 req/s** | **203,08 req/s** | **+26,03 req/s (gRPC)** |
 
-> Tabela será preenchida com os resultados obtidos ao longo do desenvolvimento.
+> Resultados medidos em ambiente local, com serviços na mesma máquina. Em ambientes distribuídos, a tendência é a vantagem do gRPC aumentar.
+
+---
+
+## Ambiente de Validação
+
+- **Máquina local do grupo:** validação concluída com Docker Compose e Kubernetes/minikube (gRPC e REST).
+- **Servidor da disciplina (`kiriland.unb.br`):** validação concluída com Docker Compose.
+- No momento da validação, o servidor da disciplina não possuía `kubectl`/`minikube` instalados por padrão; por isso, a execução Kubernetes foi documentada e validada no ambiente local com pré-requisitos atendidos.
 
 ---
 

@@ -483,7 +483,7 @@ ssh -p 10200 a<sua_matrícula>@kiriland.unb.br
 | Integrante | Responsabilidade Principal |
 |---|---|
 | **Danilo Carvalho Antunes** | gRPC, ProtoBuf, Microserviço A + Dockerfile e manifests K8s do módulo A |
-| **Aluno 2** | HTTP/2, Microserviço B, versão REST do serviço B + Dockerfile e manifests K8s do módulo B |
+| **Gabriel Soares dos Anjos** | HTTP/2, Microserviço B, versão REST do serviço B + Dockerfile e manifests K8s do módulo B |
 | **Guilherme Brito de Souza** | Módulo P (API Gateway), integração gRPC e REST + scripts de testes e comparação de desempenho |
 | **Luiz Gustavo Lopes Campos** | Docker, Kubernetes, minikube + consolidação do relatório, slides e vídeo final |
 

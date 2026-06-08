@@ -804,7 +804,13 @@ pspsd_ppesquisa_p1/
 │   ├── a-deployment.yaml
 │   ├── a-service.yaml
 │   ├── b-deployment.yaml
-│   └── b-service.yaml
+│   ├── b-service.yaml
+│   ├── p-deployment.yaml
+│   ├── p-service.yaml
+│   ├── rest-a-deployment.yaml
+│   ├── rest-a-service.yaml
+│   ├── rest-b-deployment.yaml
+│   └── rest-b-service.yaml
 │
 ├── scripts/                  ← Scripts de setup e teste
 │   ├── setup.sh

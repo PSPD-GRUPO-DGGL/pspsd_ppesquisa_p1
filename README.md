@@ -321,7 +321,7 @@ curl.exe http://127.0.0.1:63200/rest/produto/1
 
 - Ver logs de processamento de um pod em tempo real:
   ```powershell
-  kubectl logs -f modulo-p-deployment-xxxxxx
+  kubectl logs -f deploy/modulo-p
   ```
 - Excluir e limpar todos os recursos instalados do Kubernetes:
   ```powershell
@@ -393,10 +393,16 @@ docker build -t modulo-p:latest -f modulo-p/Dockerfile .
 
 ```bash
 minikube start
+eval $(minikube docker-env)
+docker build -t modulo-a:latest -f modulo-a/Dockerfile .
+docker build -t modulo-b:latest -f modulo-b/Dockerfile .
+docker build -t modulo-p:latest -f modulo-p/Dockerfile .
 kubectl apply -f k8s/
 kubectl get pods
 kubectl get services
-minikube service p-service   # abre o serviço P no browser
+URL=$(minikube service p-service --url)
+curl "$URL/produto/1"
+curl "$URL/rest/produto/1"
 ```
 
 ### 6. Verificar logs
@@ -409,7 +415,7 @@ kubectl logs <nome-do-pod>
 
 ## Testes de Desempenho
 
-Os scripts de teste estão em `testes/`. A comparação mede o tempo médio de resposta (ms) entre as versões **gRPC/ProtoBuf** e **REST/JSON**:
+Os scripts auxiliares de teste estão em `scripts/`. A comparação mede o tempo médio de resposta (ms) entre as versões **gRPC/ProtoBuf** e **REST/JSON**:
 
 | Cenário | gRPC/ProtoBuf | REST/JSON | Diferença |
 |---|---|---|---|

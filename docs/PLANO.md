@@ -65,7 +65,7 @@ Entender os conceitos principais necessários para desenvolver o projeto.
 - Levantar exemplos de unary call e server streaming.
 - Documentar o funcionamento geral do gRPC.
 
-**Aluno 2:**
+**Gabriel Soares dos Anjos:**
 - Estudar Protocol Buffers.
 - Criar exemplos simples de arquivos `.proto`.
 - Documentar mensagens, serviços e geração de código.

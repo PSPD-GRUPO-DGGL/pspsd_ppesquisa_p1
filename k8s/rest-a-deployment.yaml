@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-a
+  labels:
+    app: rest-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-a
+  template:
+    metadata:
+      labels:
+        app: rest-a
+    spec:
+      containers:
+        - name: rest-a
+          image: modulo-a:latest
+          imagePullPolicy: IfNotPresent
+          command: ["uvicorn", "rest_server:app", "--host", "0.0.0.0", "--port", "8001"]
+          ports:
+            - containerPort: 8001

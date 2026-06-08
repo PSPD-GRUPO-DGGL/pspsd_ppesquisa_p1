@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-a-service
+  labels:
+    app: rest-a
+spec:
+  type: ClusterIP
+  selector:
+    app: rest-a
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8001
+      targetPort: 8001

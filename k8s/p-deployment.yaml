@@ -27,3 +27,7 @@ spec:
               value: "a-service:50051"
             - name: URL_MODULO_B
               value: "b-service:50052"
+            - name: URL_REST_A
+              value: "http://rest-a-service:8001"
+            - name: URL_REST_B
+              value: "http://rest-b-service:8002"

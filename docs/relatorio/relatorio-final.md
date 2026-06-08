@@ -616,9 +616,12 @@ Em relação ao trabalho em equipe, busquei manter rastreabilidade entre requisi
 > [Preencher depois]
 > Nota de autoavaliação: [X/10]
 
-**[Aluno 3]:**
-> [Preencher depois]
-> Nota de autoavaliação: [X/10]
+**[Guilherme Brito de Souza]:**
+Durante o desenvolvimento deste trabalho, foi possível aprofundar conhecimentos sobre arquiteturas distribuídas e diferentes formas de comunicação entre serviços. A principal aprendizagem esteve relacionada ao uso do gRPC e do protocolo HTTP/2, compreendendo como a comunicação baseada em Protocol Buffers pode proporcionar maior eficiência em comparação com abordagens tradicionais baseadas em REST e JSON.
+
+O trabalho também proporcionou experiência prática na configuração de ambientes de desenvolvimento distribuídos, execução de múltiplos serviços simultaneamente, resolução de problemas de integração e depuração de erros relacionados a dependências, geração de arquivos Protocol Buffers e comunicação entre processos.
+
+> Nota de autoavaliação: 8/10
 
 **Luiz Gustavo Lopes Campos:**
 Desafios de Desenvolvimento Encontrados e Soluções
@@ -629,7 +632,7 @@ Desafios de Desenvolvimento Encontrados e Soluções
     o Kubernetes acusava falha de download. A solução adotada foi chavear o shell do terminal do Windows 
     com as variáveis do daemon interno do Minikube via link 'minikube docker-env', construindo os artefatos 
     direto no registro local.
-> Nota de autoavaliação: [8/10]
+> Nota de autoavaliação: 8/10
 
 ---
 

@@ -70,7 +70,7 @@ Entender os conceitos principais necessários para desenvolver o projeto.
 - Criar exemplos simples de arquivos `.proto`.
 - Documentar mensagens, serviços e geração de código.
 
-**Aluno 3:**
+**Guilherme Brito de Souza:**
 - Estudar HTTP/2.
 - Explicar multiplexação, headers comprimidos e comunicação binária.
 - Comparar HTTP/2 com HTTP/1.1.
@@ -129,7 +129,7 @@ projeto-pspd/
 **Aluno 2:**
 - Preparar o repositório Git e organizar a estrutura de pastas.
 
-**Aluno 3:**
+**Guilherme Brito de Souza:**
 - Instalar/testar ferramentas gRPC e ProtoBuf.
 - Criar um documento de comandos usados e problemas encontrados.
 
@@ -237,7 +237,7 @@ message AvaliacaoResponse {
 
 **Danilo Carvalho Antunes:** Definir e implementar o contrato `.proto` do serviço A.
 **Aluno 2:** Definir e implementar o contrato `.proto` do serviço B.
-**Aluno 3:** Projetar o módulo P como API Gateway.
+**Guilherme Brito de Souza:** Projetar o módulo P como API Gateway.
 **Aluno 4:** Planejar a comunicação entre P, A e B + documentar a arquitetura e criar o diagrama da solução.
 
 ---
@@ -289,7 +289,7 @@ P retorna JSON final ao usuário
 
 **Danilo Carvalho Antunes:** Implementar microserviço A e criar testes diretos para A.
 **Aluno 2:** Implementar microserviço B e criar testes diretos para B.
-**Aluno 3:** Implementar módulo P com web server e cliente gRPC.
+**Guilherme Brito de Souza:** Implementar módulo P com web server e cliente gRPC.
 **Aluno 4:** Integrar P, A e B; resolver problemas de comunicação + criar testes de uso, registrar resultados e documentar execução.
 
 ---
@@ -312,7 +312,7 @@ Criar uma versão alternativa da aplicação usando REST-API/JSON entre P, A e B
 
 **Danilo Carvalho Antunes:** Adaptar o serviço A para REST.
 **Aluno 2:** Adaptar o serviço B para REST.
-**Aluno 3:** Adaptar o módulo P para consumir REST.
+**Guilherme Brito de Souza:** Adaptar o módulo P para consumir REST.
 **Aluno 4:** Garantir equivalência funcional entre as versões REST e gRPC + criar os testes comparativos entre as duas versões.
 
 ---
@@ -350,7 +350,7 @@ Comparar o tempo de resposta entre a versão gRPC/ProtoBuf e a versão REST/JSON
 
 **Danilo Carvalho Antunes:** Executar testes da versão gRPC.
 **Aluno 2:** Executar testes da versão REST.
-**Aluno 3:** Criar script de medição de tempo + organizar resultados em tabela.
+**Guilherme Brito de Souza:** Criar script de medição de tempo + organizar resultados em tabela.
 **Aluno 4:** Escrever análise conclusiva dos resultados.
 
 ---
@@ -374,7 +374,7 @@ Preparar os módulos P, A e B para execução em containers.
 
 **Danilo Carvalho Antunes:** Criar Dockerfile do módulo A.
 **Aluno 2:** Criar Dockerfile do módulo B.
-**Aluno 3:** Criar Dockerfile do módulo P.
+**Guilherme Brito de Souza:** Criar Dockerfile do módulo P.
 **Aluno 4:** Testar execução dos containers + documentar comandos de build e execução.
 
 ---
@@ -434,7 +434,7 @@ minikube service p-service
 
 **Danilo Carvalho Antunes:** Criar arquivos Kubernetes do módulo A.
 **Aluno 2:** Criar arquivos Kubernetes do módulo B.
-**Aluno 3:** Criar arquivos Kubernetes do módulo P.
+**Guilherme Brito de Souza:** Criar arquivos Kubernetes do módulo P.
 **Aluno 4:** Testar implantação no minikube + documentar comandos, erros e soluções.
 
 ---
@@ -456,7 +456,7 @@ minikube service p-service
 
 **Danilo Carvalho Antunes:** Seção de gRPC e ProtoBuf.
 **Aluno 2:** Seção da aplicação e microserviços A e B.
-**Aluno 3:** Seção do módulo P, integração e testes/comparação de desempenho.
+**Guilherme Brito de Souza:** Seção do módulo P, integração e testes/comparação de desempenho.
 **Aluno 4:** Seção de Kubernetes/minikube + conclusão + organização geral do relatório.
 
 ---
@@ -485,7 +485,7 @@ minikube service p-service
 
 **Danilo Carvalho Antunes:** Slides sobre gRPC, ProtoBuf e HTTP/2.
 **Aluno 2:** Slides sobre serviços A e B.
-**Aluno 3:** Slides sobre módulo P, integração e comparação gRPC x REST.
+**Guilherme Brito de Souza:** Slides sobre módulo P, integração e comparação gRPC x REST.
 **Aluno 4:** Slides sobre Kubernetes, testes, resultados e conclusão.
 
 ---
@@ -500,7 +500,7 @@ Gravar um vídeo com a participação de todos os membros (~20 minutos, ~5 min p
 
 **Danilo Carvalho Antunes:** Objetivo do trabalho + gRPC, ProtoBuf e HTTP/2.
 **Aluno 2:** Microserviços A e B + arquivos `.proto`.
-**Aluno 3:** Módulo P, API Gateway, integração HTTP/gRPC e testes comparativos gRPC x REST.
+**Guilherme Brito de Souza:** Módulo P, API Gateway, integração HTTP/gRPC e testes comparativos gRPC x REST.
 **Aluno 4:** Docker, Kubernetes/minikube, resultados dos testes e conclusão.
 
 ### Demonstrações no vídeo
@@ -543,7 +543,7 @@ Gravar um vídeo com a participação de todos os membros (~20 minutos, ~5 min p
 - Documentar o serviço B.
 - Apresentar HTTP/2 e serviços A e B no vídeo.
 
-### Aluno 3 — Módulo P, API Gateway e Testes
+### Guilherme Brito de Souza — Módulo P, API Gateway e Testes
 - Implementar o módulo P (web server + cliente gRPC + cliente REST).
 - Criar o Dockerfile e os manifests Kubernetes do módulo P.
 - Criar scripts de medição de tempo e testes comparativos gRPC x REST.

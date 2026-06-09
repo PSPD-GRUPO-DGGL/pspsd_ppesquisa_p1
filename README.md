@@ -19,6 +19,8 @@ A aplicação implementa um **Sistema Distribuído de Consulta e Análise de Pro
 
 Também é implementada uma **versão alternativa REST/JSON** entre os módulos para comparação de desempenho.
 
+> Relatório Final completo disponível em [`Relatório Final`](docs/relatorio/relatorio-final.md).
+
 ---
 
 ## Arquitetura

@@ -491,4 +491,4 @@ ssh -p 10200 a<sua_matrícula>@kiriland.unb.br
 
 > Detalhamento completo por etapa disponível em [`docs/PLANO.md`](docs/PLANO.md).
 
-> Link do vídeo de apresentação: [Apresentação](https://youtu.be/WTnN7b9me2E)
+> Link do vídeo de apresentação: [Apresentação](https://drive.google.com/drive/folders/15hbbU8a7jb9_tfaa6yG0jPasEyG4NvQ8)
